@@ -1,5 +1,6 @@
 import React from 'react';
 import { getProduct, getAll, deleteProduct, createProduct } from './lib/api';
+import is_url from './lib/is_url';
 import './App.css';
 
 class App extends React.Component {
@@ -42,11 +43,16 @@ class App extends React.Component {
   async handleOnSubmit(event) {
     event.preventDefault();
     const { formName, formAvatar } = this.state;
+    if (formName.length < 5) {
+      alert('The name must be more than five characthers');
+    }
+    if (is_url(formAvatar) === false) {
+      alert('Please insert a valid url');
+    }
     const newProduct = {
       name: formName,
       avatar: formAvatar,
     };
-
     await createProduct(newProduct);
     const response = await getAll();
     this.setState({ loading: false, products: response.data });
