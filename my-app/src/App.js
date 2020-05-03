@@ -1,26 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
+import { getProduct } from './lib/api';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      product: null,
+      loading: false,
+    };
+  }
+  componentDidMount() {
+    this.fetchProduct().then();
+  }
+
+  async fetchProduct() {
+    this.setState({ loading: true });
+    const response = await getProduct(10);
+    const product = response.data;
+    console.log(product);
+    this.setState({ product, loading: false });
+  }
+
+  render() {
+    const { loading, product } = this.state;
+    return (
+      <div className='App'>
+        {loading && <h5>Loading...</h5>}
+        {!loading && product && (
+          <div>
+            <h4> {product.name} </h4>
+            <img src={product.avatar} alt={product.name} />
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;
