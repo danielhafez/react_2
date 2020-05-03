@@ -6,9 +6,13 @@ export function getProduct(productId) {
   return axios.get(`${baseUrl}/${productId}`);
 }
 
-export function deleteProduct(productId) {
-  return axios.delete(`${baseUrl}`, { params: { id: productId } });
+export function getAll() {
+  return axios.get(baseUrl);
 }
-export function createUser(product) {
+
+export function deleteProduct(productId) {
+  return axios.delete(`${baseUrl}/${productId}`);
+}
+export function createProduct(product) {
   return axios.post(`${baseUrl}`, product);
 }
