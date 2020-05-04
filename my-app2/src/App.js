@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
+import Product from './components/product';
 
 export default function App() {
   return (
@@ -25,6 +26,9 @@ export default function App() {
           </Route>
           <Route path='/products'>
             <Products />
+            <Route path='/products/:productId'>
+              <Product />
+            </Route>
           </Route>
           <Route path='/'>
             <Home />
@@ -64,6 +68,15 @@ function Products() {
     <div className='main'>
       <h2>Products</h2>
       <ul className='products'>
+        <Link className='product-item' to='/products/:iphone'>
+          Iphone
+        </Link>
+        <Link className='product-item' to='/products/:ipad'>
+          Ipad
+        </Link>
+        <Link className='product-item' to='/products/:macbook'>
+          MacBook Pro
+        </Link>
         <li className='product-item'>Iphone</li>
         <li className='product-item'>Ipad</li>
         <li className='product-item'>MacBook Pro</li>
