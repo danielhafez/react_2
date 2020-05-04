@@ -1,6 +1,8 @@
 import React from 'react';
-import { getProduct, getAll, deleteProduct, createProduct } from './lib/api';
+import deleteProduct, { getProduct, getAll, createProduct } from './lib/api';
 import is_url from './lib/is_url';
+import { useFormik } from 'formik';
+
 import './App.css';
 
 class App extends React.Component {
@@ -10,8 +12,6 @@ class App extends React.Component {
       product: null,
       loading: false,
       products: [],
-      formName: '',
-      formAvatar: '',
     };
   }
   componentDidMount() {
@@ -59,29 +59,45 @@ class App extends React.Component {
   }
 
   render() {
-    const { loading, products, formAvatar, formName } = this.state;
+    const { loading, products } = this.state;
+
+    const formik = useFormik({
+      initialValues: {
+        formName: '',
+        formAvatar: '',
+      },
+
+      onSubmit: (event) => {
+        event.preventDefault();
+        const newProduct = {
+          name: formik.values.formName,
+          avatar: formik.values.formAvatar,
+        };
+
+        createProduct(newProduct);
+        const response = getAll();
+        this.setState({ loading: false, products: response.data });
+      },
+    });
+
     return (
       <div className='App'>
-        <form
-          onSubmit={(event) => {
-            this.handleOnSubmit(event);
-          }}
-        >
+        <form onSubmit={formik.handleSubmit}>
           <input
             type='text'
             name='name'
-            value={formName}
             id='name'
             placeholder='name'
-            onChange={(event) => this.setState({ formName: event.target.value })}
+            onChange={formik.handleChange}
+            value={formik.values.formName}
           />
           <input
             type='text'
             name='avatar'
-            value={formAvatar}
             id='avatar'
             placeholder='avatar'
-            onChange={(event) => this.setState({ formAvatar: event.target.value })}
+            onChange={formik.handleChange}
+            value={formik.values.formAvatar}
           />
           <button type='submit'>New user</button>
         </form>

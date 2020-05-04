@@ -1,0 +1,26 @@
+.main {
+  text-align: center;
+  padding: 50px;
+}
+
+.logo {
+  width: 200px;
+}
+
+.menu {
+  list-style: none;
+}
+
+.menu-item {
+  padding: 10px;
+}
+
+.products {
+  padding-top: 20px;
+  list-style: none;
+  padding-inline-start: 0px;
+}
+
+.product-item {
+  margin: 10px;
+}

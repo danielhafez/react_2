@@ -10,7 +10,7 @@ export function getAll() {
   return axios.get(baseUrl);
 }
 
-export function deleteProduct(productId) {
+export default function deleteProduct(productId) {
   return axios.delete(`${baseUrl}/${productId}`);
 }
 export function createProduct(product) {
